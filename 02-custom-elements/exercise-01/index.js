@@ -1,16 +1,20 @@
 class LightSwitch extends HTMLElement{
-
     constructor() {
         super();
-
-        let items = this.children;
-        console.log(items)
-        console.log(items.item(1));
-        // let button
+        this.bulb = this.children[0];
+        this.button = this.children[1];
+        this.bulb.style.backgroundColor = 'grey';
+        this.button.addEventListener("click", ()=>{
+            this.toggleLight()
+        });
     }
 
     toggleLight(){
-
+        this.bulb.style.backgroundColor === 'grey' ?
+            this.bulb.style.backgroundColor = 'yellow' :
+            this.bulb.style.backgroundColor = 'grey';
     }
 }
-window.customElements.define('light-switch', LightSwitch);
+window.addEventListener('DOMContentLoaded', (event) => {
+    customElements.define('light-switch', LightSwitch);
+});
