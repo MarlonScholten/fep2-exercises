@@ -3,6 +3,9 @@ class LightSwitch extends HTMLElement{
         super();
         this.bulb = this.children[0];
         this.button = this.children[1];
+    }
+
+    connectedCallback(){
         this.bulb.style.backgroundColor = 'grey';
         this.button.addEventListener("click", ()=>{
             this.toggleLight()
