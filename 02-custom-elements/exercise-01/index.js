@@ -1,12 +1,16 @@
 class LightSwitch extends HTMLElement{
     constructor() {
         super();
-        this.bulb = this.children[0];
-        this.button = this.children[1];
+        this.bulb = document.createElement("div");
+        this.bulb.classList.add("light-bulb");
+        this.bulb.style.backgroundColor = 'grey';
+        this.button = document.createElement("button");
+        this.button.innerText = "Toggle on/off";
+        this.button.classList.add("switch");
     }
 
     connectedCallback(){
-        this.bulb.style.backgroundColor = 'grey';
+        this.append(this.bulb,this.button);
         this.button.addEventListener("click", ()=>{
             this.toggleLight()
         });
@@ -18,6 +22,4 @@ class LightSwitch extends HTMLElement{
             this.bulb.style.backgroundColor = 'grey';
     }
 }
-window.addEventListener('DOMContentLoaded', (event) => {
-    customElements.define('light-switch', LightSwitch);
-});
+customElements.define('light-switch', LightSwitch);
