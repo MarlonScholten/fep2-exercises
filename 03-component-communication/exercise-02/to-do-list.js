@@ -7,18 +7,36 @@ template.innerHTML = `
 class TodoList extends HTMLElement {
 	constructor() {
 		super();
+		this._todos = [];
 	}
 
 	connectedCallback() {
 		this.appendChild(template.content.cloneNode(true));
-		let ul = this.querySelector("#todos");
-		console.log(this.todos);
-		for(let i=0; i<list.length;i++){
-			let li = document.createElement("li");
-			li.innerText = list[i].text;
-			ul.appendChild(li);
-		}
 	}
 
+	get todos(){
+		return this._todos;
+	}
+
+	set todos(value){
+		this._todos = value;
+		this._renderListItems();
+	}
+
+	_renderListItems(){
+		let ul = this.querySelector("#todos");
+
+		// clear the list
+		while(ul.hasChildNodes()){
+			ul.lastChild.remove();
+		}
+
+		// add all the items
+		this._todos.forEach((todo, index) =>{
+			let li = document.createElement("li");
+			li.innerText = todo.text;
+			ul.appendChild(li);
+		});
+	}
 }
-window.customElements.define('to-do-list', TodoList);
+customElements.define('to-do-list', TodoList);
