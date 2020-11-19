@@ -29,7 +29,14 @@ class ToDoList extends HTMLElement {
     }
 
     _toggleTodo(event) {
-
+        let target = this.querySelector('#todos').children.item(event.detail);
+        if(target.hasAttribute('checked')){
+            target.removeAttribute('checked');
+            target.querySelector('.item').classList.remove('completed');
+        } else{
+            target.setAttribute('checked', '');
+            target.querySelector('.item').classList.add('completed');
+        }
     }
 
     _renderTodoList() {
@@ -45,6 +52,7 @@ class ToDoList extends HTMLElement {
             // By setting index we have some state to keep track of the index
             // of the to do
             $todoItem.setAttribute('index', index);
+            $todoItem.addEventListener("onToggle", event => this._toggleTodo(event));
             this.querySelector('#todos').appendChild($todoItem);
         });
     }
