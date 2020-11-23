@@ -1,10 +1,3 @@
-const template = document.createElement('template')
-template.innerHTML = `
-    <li class="item">
-        <input type="checkbox">
-        <label></label>
-    </li>`
-
 class TodoItem extends HTMLElement {
 	constructor() {
 		super();
@@ -30,9 +23,12 @@ class TodoItem extends HTMLElement {
 		  	:host .completed {
 				text-decoration: line-through;
 		  	}
-		</style>`;
+		</style>
+		<li class="item">
+			<input type="checkbox">
+			<label></label>
+    	</li>`;
 
-		this.appendChild(template.content.cloneNode(true))
 		this._renderTodoItem();
 		const onToggle = new CustomEvent('onToggle',{
 			bubbles: true,

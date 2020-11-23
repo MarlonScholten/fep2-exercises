@@ -59,10 +59,10 @@ class ToDoList extends HTMLElement {
 		let target = this.shadowRoot.querySelector('#todos').children.item(event.detail);
 		if(target.hasAttribute('checked')){
 			target.removeAttribute('checked');
-			target.querySelector('.item').classList.remove('completed');
+			target.shadowRoot.querySelector('.item').classList.remove('completed');
 		} else{
 			target.setAttribute('checked', '');
-			target.querySelector('.item').classList.add('completed');
+			target.shadowRoot.querySelector('.item').classList.add('completed');
 		}
 	}
 
