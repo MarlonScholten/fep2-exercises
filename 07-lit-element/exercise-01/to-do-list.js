@@ -71,8 +71,16 @@ class ToDoList extends LitElement {
 
 		console.log(this._todos)
 		this._todos.forEach((todo, index) => {
-			console.log(todo, index);
-			// let newitem = document.createElement('to-do-item');
+			// let todoItem = document.createElement('to-do-item');
+			// $todoItem.setAttribute('text', todo.text);
+			//
+			// if (todo.checked) {
+			// 	$todoItem.setAttribute('checked', '');
+			// }
+			//
+			// $todoItem.setAttribute('index', index);
+			// $todoItem.addEventListener('onToggle', this._toggleTodo.bind(this));
+			// this._todoList.appendChild($todoItem);
 		});
 	}
 
