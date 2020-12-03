@@ -2,6 +2,12 @@ import { LitElement, html, css } from 'lit-element';
 import './to-do-item.js';
 
 class ToDoList extends LitElement {
+	static get properties(){
+		return{
+			todos: {type: Array}
+		}
+	}
+
 	render(){
 		return html`
 		<h1>To do</h1>
@@ -9,11 +15,21 @@ class ToDoList extends LitElement {
 			<input type="text" placeholder="Add a new to do">
 			<button @click="${this._addTodo}">Voeg toe</button>
 		</form>
-		<ul id="todos"></ul>
+		<ul id="todos">
+			${this.todos.map((todo, index) => html`
+				<to-do-item
+					text='${todo.text}'
+					index='${index}'
+					?checked='${todo.checked}'
+					@onToggle="${this._addTodo}">
+				</to-do-item>
+			`)}
+		</ul>
 		`;
 	}
 
 	static get styles(){
+		// language=css
 		return css`
 		:host {
             display: block;
@@ -44,66 +60,28 @@ class ToDoList extends LitElement {
 		`;
 	}
 
-	_toggleTodo(e) {
-		const todo = this._todos[e.detail];
-		this._todos[e.detail] = Object.assign({}, todo, {
-			checked: !todo.checked
-		});
-		this._renderTodoList();
-	}
-
 	_addTodo(e) {
-		console.log('you clicked the button')
 		e.preventDefault();
-		if (this._input.value.length > 0) {
-			this._todos.push({
-				text: this._input.value,
+		if (this.input.value.length > 0) {
+			this.todos.push({
+				text: this.input.value,
 				checked: false
 			});
-			this._renderTodoList();
-			this._input.value = '';
+			this.todos = [...this.todos];
+			this.input.value = '';
 		}
 	}
 
-	// TODO geeft undefined wanneer je document.createElement('to-do-item') probeert te maken
-	_renderTodoList() {
-		this._todoList.innerHTML = '';
-
-		console.log(this._todos)
-		this._todos.forEach((todo, index) => {
-			// let todoItem = document.createElement('to-do-item');
-			// $todoItem.setAttribute('text', todo.text);
-			//
-			// if (todo.checked) {
-			// 	$todoItem.setAttribute('checked', '');
-			// }
-			//
-			// $todoItem.setAttribute('index', index);
-			// $todoItem.addEventListener('onToggle', this._toggleTodo.bind(this));
-			// this._todoList.appendChild($todoItem);
-		});
-	}
-
-	set todos(value) {
-		this._todos = value;
-		this._renderTodoList();
-	}
-
-	get todos() {
-		return this._todos;
-	}
-
-	get _todoList(){
+	get todoList(){
 		return this.shadowRoot.querySelector('ul');
 	}
 
-	get _input(){
+	get input(){
 		return this.shadowRoot.querySelector('input');
 	}
 
-	get _submitButton(){
+	get submitButton(){
 		return this.shadowRoot.querySelector('button');
 	}
 }
-
 window.customElements.define('to-do-list', ToDoList);

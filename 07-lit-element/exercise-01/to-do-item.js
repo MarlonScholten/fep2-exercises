@@ -1,11 +1,20 @@
 import { LitElement, html, css } from 'lit-element';
 
 class TodoItem extends LitElement {
+	static get properties(){
+		return {
+			text: {type: String},
+			checked: {type: Boolean}
+		}
+	}
+
 	render(){
 		return html`
 		<li class="item">
-			<input type="checkbox" @click="${this.toggleChecked}">
-			<label>${this._text}</label>
+			${this.checked ? 
+			html`<input type="checkbox" @click="${this.toggleChecked}" checked>` : 
+			html`<input type="checkbox" @click="${this.toggleChecked}">`}
+			<label>${this.text}</label>
 		</li>
 		`;
 	}
@@ -16,6 +25,7 @@ class TodoItem extends LitElement {
 	}
 
 	static get styles() {
+		// language=css
 		return css`
 		  :host {
 				display: block;
@@ -31,73 +41,15 @@ class TodoItem extends LitElement {
 		`;
 	}
 
-	connectedCallback() {
-		if(!this.hasAttribute('text')) {
-			this.setAttribute('text', 'placeholder');
-		}
-
-		this._renderTodoItem();
-	}
-
-	static get observedAttributes() {
-		return ['text', 'checked', 'index'];
-	}
-
-	attributeChangedCallback(name, oldValue, newValue) {
-		switch(name){
-			case 'text':
-				this._text = newValue;
-				break;
-			case 'checked':
-				this._checked = this.hasAttribute('checked');
-				break;
-			case 'index':
-				this._index = parseInt(newValue);
-				break;
-		}
-	}
-
-	_renderTodoItem() {
-		if (this.hasAttribute('checked')) {
-			this._item.classList.add('completed');
-			this._checkbox.setAttribute('checked', '');
-		} else {
-			this._item.classList.remove('completed');
-			this._checkbox.removeAttribute('checked');
-		}
-
-		this._textLabel.innerHTML = this._text;
-	}
-
-	set index(val) {
-		this.setAttribute('index', val);
-	}
-
-	get index() {
-		return this._index;
-	}
-
-	get checked() {
-		return this.hasAttribute('checked');
-	}
-
-	set checked(val) {
-		if (val) {
-			this.setAttribute('checked', '');
-		} else {
-			this.removeAttribute('checked');
-		}
-	}
-
-	get _item(){
+	get item(){
 		return this.shadowRoot.querySelector('.item');
 	}
 
-	get _textLabel(){
+	get textLabel(){
 		return this.shadowRoot.querySelector('label');
 	}
 
-	get _checkbox(){
+	get checkbox(){
 		return this.shadowRoot.querySelector('input');
 	}
 }
